@@ -10,8 +10,8 @@ class Supplier(Base):
     contract_terms=Column(JSON)
     Compliance_score=Column(Integer,default=100)
     last_audit=Column(Date)
-
-class Compliance_record(Base):
+    compliance_records = relationship('ComplianceRecord', order_by='ComplianceRecord.id', back_populates='supplier')
+class ComplianceRecord(Base):
     __tablename__ = 'ComplianceRecord'
     id=Column(Integer,primary_key=True,autoincrement=True)
     supplier_id=Column(Integer,ForeignKey('supplier.id'))
@@ -19,9 +19,9 @@ class Compliance_record(Base):
     Daterecorded=Column(Date)
     result=Column(Integer)
     status=Column(String)
-    supplier=relationship('Supplier',back_populates='Compliance_record')
+    supplier = relationship('Supplier', back_populates='compliance_records')
 
-Supplier.compliance_records=relationship('Compliance_record',order_by=Compliance_record.id,back_populates='supplier')
+
 
 
 
