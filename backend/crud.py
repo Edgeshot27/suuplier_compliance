@@ -17,11 +17,14 @@ def create_supplier(db:Session,supplier: Suppliercreate):
     return db_supplier
 
 def create_compliancerecord(db:Session,record:Compliancecreate):
-    db_compliancerecord=models.Compliance_record(**record.model_dump())
+    db_compliancerecord=models.ComplianceRecord(**record.model_dump())
     db.add(db_compliancerecord)
     db.commit()
     db.refresh(db_compliancerecord)
     return db_compliancerecord
 
 def get_compliancerecord(db: Session):
-    return db.query(models.Compliance_record).all()
+    return db.query(models.ComplianceRecord).all()
+
+def get_compliance_by_supplier(db: Session, supplier_id: int):
+    return db.query(models.Supplier).filter(models.Supplier.id == supplier_id).all()

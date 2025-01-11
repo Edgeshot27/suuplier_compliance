@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 from typing import List,Optional
-from datetime import date
+from datetime import date, datetime
 from backend.models import ComplianceRecord
+
 class SupplierBase(BaseModel):
     name:str
     country:str
@@ -14,7 +15,7 @@ class Suppliercreate(SupplierBase):
 
 class Supplier(SupplierBase):
     id:int
-    compliance_records:List['ComplianceRecord']=[]
+    compliance_records:List['Compliance']=[]
 
     class Config:
         orm_mode=True
@@ -25,7 +26,7 @@ class Supplier(SupplierBase):
 class ComplianceRecordBase(BaseModel):
     supplier_id:int
     metric:str
-    Daterecorded:Optional[date]
+    Daterecorded:datetime
     result:int
     status:str
 
@@ -38,5 +39,10 @@ class Compliance(ComplianceRecordBase):
     class Config:
         orm_mode=True
 
+class WeatherImpactRequest(BaseModel):
+    supplier_id: int
+    latitude: float
+    longitude: float
+    delivery_date: str
 Supplier.model_rebuild()
 Compliance.model_rebuild()
